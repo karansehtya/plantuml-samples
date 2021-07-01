@@ -1,0 +1,44 @@
+@startuml
+skinparam BoxPadding 40
+skinparam maxMessageSize 200
+
+actor User as user
+participant "ECommerce Portal" as ecom
+participant "Product Service" as product
+participant "Shopping Cart" as cart
+participant "Order Service" as order
+database "Order Persistence" as orderdb
+participant "Shipping Service" as ship
+participant "Customer Care" as care
+
+user -> ecom : fetch selected order details
+activate user
+activate ecom
+    
+    ecom -> order : fetch order details
+    activate order
+
+        order -> orderdb : fetch details of order
+        activate orderdb
+        orderdb --> order : order details
+        deactivate orderdb
+
+    order --> ecom : order details
+    deactivate order
+
+    loop
+        ecom -> ship : fetch delivery status
+        ship --> ecom : delivery status
+    end
+ecom --> user : display order and shipment details
+deactivate ecom
+deactivate user
+
+user -> ecom : Look for customer care solutions
+alt if user is logged in
+ecom -> care : fetch user options
+care --> ecom : data
+end
+
+ecom --> user : customer care solutions
+@enduml

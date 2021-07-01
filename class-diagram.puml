@@ -1,0 +1,34 @@
+@startuml
+
+class Order {
+    id: uuid
+    orderDetails: OrderDetails
+    getOrderDetails(): Order
+}
+
+class OrderDetails {
+    OrderItems: OrderItem[]
+}
+
+class OrderItem {
+    productId: uuid
+    name: string
+}
+
+abstract class Payment {
+    amount: number
+}
+
+class CashOnDelivery {
+
+}
+
+class Wallet {
+    transactionId: number
+}
+
+Order "1" o-- "1" OrderDetails
+OrderDetails "1" o-- "many" OrderItem
+Payment <|-- CashOnDelivery
+Payment <|-- Wallet
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+state "Order Placed" as placed
+placed: order placed at e commerce
+
+state "Order Dispatched" as dispatched
+dispatched: dispatched by seller
+
+state "Order Shipped" as shipped
+shipped: shipped from fulfillment center
+
+state "Order Delivered" as delivered
+delivered: delivered to customer
+
+state "Order Return Initiated" as returnInitated
+returnInitated: customer initiated return
+
+[*] --> placed : customer placed order
+placed -left-> dispatched
+dispatched --> shipped
+shipped --> delivered
+delivered -> returnInitated : user didn't like product
+delivered --> [*]
+returnInitated --> [*]
+@enduml
